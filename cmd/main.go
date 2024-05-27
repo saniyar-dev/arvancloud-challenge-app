@@ -3,10 +3,10 @@ package main
 import (
 	"arvancloud-challenge-app/configs"
 	"arvancloud-challenge-app/internal/delivery/http"
+	"arvancloud-challenge-app/internal/domain"
 	"arvancloud-challenge-app/internal/repository"
 	"arvancloud-challenge-app/internal/usecase"
 	"log"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -18,17 +18,19 @@ func main() {
 	// Load config
 	cfg, err := configs.LoadConfig(".")
 	if err != nil {
-		log.Fatal("cannot load config:", err)
+		log.Fatal("cannot load config:", err.Error())
 	}
 
 	// Connect to the database
 	db, err := gorm.Open(postgres.Open(cfg.DBSource), &gorm.Config{})
 	if err != nil {
-		log.Fatal("cannot connect to db:", err)
+		log.Fatal("cannot connect to db:", err.Error())
 	}
 
 	// Migrate the schema
-	db.AutoMigrate(&repository.Request{})
+	if err := db.AutoMigrate(&domain.Request{}); err != nil {
+		log.Fatal(err.Error())
+	}
 
 	// Setup Gin
 	r := gin.Default()
@@ -46,5 +48,7 @@ func main() {
 	r.GET("/metrics", gin.WrapH(promhttp.Handler()))
 
 	// Run the server
-	r.Run(cfg.ServerAddress)
+	if err := r.Run(cfg.ServerAddress); err != nil {
+		log.Fatal(err.Error())
+	}
 }
