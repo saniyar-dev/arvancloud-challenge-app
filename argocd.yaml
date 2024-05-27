@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: arvancloud-challenge-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: "https://github.com/saniyar-dev/arvancloud-challenge-app.git"
+    targetRevision: HEAD
+    path: helm/arvancloud-challenge-app
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: arvancloud-challenge-app
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

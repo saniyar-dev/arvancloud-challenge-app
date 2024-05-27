@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arvancloud-challenge-app
+  labels:
+    app: arvancloud-challenge-app
+spec:
+  replicas: { { .Values.replicaCount } }
+  selector:
+    matchLabels:
+      app: arvancloud-challenge-app
+  template:
+    metadata:
+      labels:
+        app: arvancloud-challenge-app
+    spec:
+      containers:
+        - name: arvancloud-challenge-app
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_SOURCE
+              valueFrom:
+                secretKeyRef:
+                  name: arvancloud-challenge-app-secrets
+                  key: dbsource
+            - name: SERVER_ADDRESS
+              value: ":8080"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /root/configs
+              subPath: config.yaml
+      volumes:
+        - name: config-volume
+          configMap:
+            name: arvancloud-challenge-app-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: arvancloud-challenge-app-config
+data:
+  config.yaml: |
+    dbsource: "host=your-postgres-host user=your-postgres-user password=your-postgres-password dbname=your-dbname port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+    serveraddress: ":8080"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: arvancloud-challenge-app-secrets
+type: Opaque
+stringData:
+  dbsource: "host=your-postgres-host user=your-postgres-user password=your-postgres-password dbname=your-dbname port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: arvancloud-challenge-app
+spec:
+  selector:
+    app: arvancloud-challenge-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
