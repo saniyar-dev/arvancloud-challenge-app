@@ -1,0 +1,33 @@
+
+### .gitignore
+
+```plaintext
+
+# Logs
+*.log
+*.retry
+
+# Config files
+configs/config.yaml
+
+# Dependencies
+vendor/
+*.mod
+*.sum
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Go specific
+*.out
+*.test
+*.cover
+
+# IDEs
+.vscode/
+.idea/
+
+# Kubernetes
+kubectl.kubeconfig
+
