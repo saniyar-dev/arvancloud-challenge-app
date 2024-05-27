@@ -7,14 +7,6 @@
 *.log
 *.retry
 
-# Config files
-configs/config.yaml
-
-# Dependencies
-vendor/
-*.mod
-*.sum
-
 # OS generated files
 .DS_Store
 Thumbs.db
