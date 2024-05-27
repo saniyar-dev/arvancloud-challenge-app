@@ -2,6 +2,7 @@
 ### .gitignore
 
 ```plaintext
+arvancloud-challenge-app
 
 # Logs
 *.log
