@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: "https://github.com/saniyar-dev/arvancloud-challenge-app.git"
     targetRevision: HEAD
-    path: helm/arvancloud-challenge-app
+    path: helm
   destination:
     server: "https://kubernetes.default.svc"
     namespace: arvancloud-challenge-app

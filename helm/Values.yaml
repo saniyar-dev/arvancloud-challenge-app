@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: arvancloud-challenge-app
+  repository: saniyar-dev/arvancloud-challenge-app:1.0
   pullPolicy: IfNotPresent
   tag: "latest"
 
