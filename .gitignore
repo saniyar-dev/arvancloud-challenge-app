@@ -12,7 +12,7 @@ arvancloud-challenge-app
 .DS_Store
 Thumbs.db
 
-configs/*.yaml
+*config.yaml
 
 # Go specific
 *.out
