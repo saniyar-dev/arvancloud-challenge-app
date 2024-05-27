@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: "https://your-git-repo-url"
+    repoURL: "https://github.com/saniyar-dev/arvancloud-challenge-app.git"
     targetRevision: HEAD
     path: helm/arvancloud-challenge-app
   destination:
